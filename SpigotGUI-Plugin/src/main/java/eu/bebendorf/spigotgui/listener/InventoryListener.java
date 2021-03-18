@@ -33,7 +33,7 @@ public class InventoryListener implements Listener {
             return;
         e.setResult(Event.Result.DENY);
         e.setCancelled(true);
-        if(e.getClickedInventory().getType() != InventoryType.CHEST)
+        if(e.getClickedInventory() == null || e.getClickedInventory().getType() != InventoryType.CHEST)
             return;
         GUIItem item = gui.item(e.getSlot());
         MouseButton button = e.getClick() == ClickType.MIDDLE ? MouseButton.MIDDLE : (e.isRightClick() ? MouseButton.RIGHT : MouseButton.LEFT);
