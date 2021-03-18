@@ -1,6 +1,8 @@
 # SpigotGUI
 A simple to use graphical interface system for spigot
 
+[Plugin Download](https://repo.bebendorf.eu/eu/bebendorf/SpigotGUI-Plugin/1.0-SNAPSHOT/SpigotGUI-Plugin-1.0-20210318.135437-1.jar)
+
 ## Maven
 ```xml
 <repositories>
