@@ -14,4 +14,33 @@
         <module>SpigotGUI-Plugin</module>
     </modules>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>bebendorf-snapshots</id>
+            <url>https://nexus.bebendorf.eu/repository/bebendorf-snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>bebendorf-releases</id>
+            <url>https://nexus.bebendorf.eu/repository/bebendorf-releases</url>
+        </repository>
+    </distributionManagement>
+
 </project>
