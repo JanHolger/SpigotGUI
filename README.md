@@ -35,5 +35,5 @@ SpigotGUI.get().makeGUI("test", "Test", 3)
 There are multiple ways to react to clicks.
 You can register listeners on either the gui or individual items by using their `.click(GUIClickListener)` method or use the bukkit event system to listen for the `GUIClickEvent`.
 
-## Attributes
+### Attributes
 Both the `GUI` and `GUIItem` have an attribute system to attach attributes to those items. You can get and set attributes using the `attr` methods.
