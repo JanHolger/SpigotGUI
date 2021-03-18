@@ -13,10 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 
 @AllArgsConstructor
 public class InventoryListener implements Listener {
@@ -33,6 +30,8 @@ public class InventoryListener implements Listener {
             return;
         e.setResult(Event.Result.DENY);
         e.setCancelled(true);
+        if(shouldCancel(e.getAction()))
+            return;
         if(e.getClickedInventory() == null || e.getClickedInventory().getType() != InventoryType.CHEST)
             return;
         GUIItem item = gui.item(e.getSlot());
@@ -43,6 +42,19 @@ public class InventoryListener implements Listener {
         if(item == null)
             return;
         ((GUIItemImpl) item).call(event);
+    }
+
+    private static boolean shouldCancel(InventoryAction action) {
+        if(action == null)
+            return true;
+        switch (action) {
+            case PLACE_ALL:
+            case PLACE_ONE:
+            case PLACE_SOME:
+                return true;
+            default:
+                return false;
+        }
     }
 
     @EventHandler
