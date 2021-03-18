@@ -1,0 +1,4 @@
+name: 'SpigotGUI'
+version: '1.0'
+author: 'Jan Bebendorf'
+main: 'eu.bebendorf.spigotgui.SpigotGUIPlugin'
