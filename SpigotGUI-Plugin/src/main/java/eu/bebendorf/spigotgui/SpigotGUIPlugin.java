@@ -8,6 +8,7 @@ import eu.bebendorf.spigotgui.listener.PlayerListener;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,6 +25,10 @@ public class SpigotGUIPlugin extends JavaPlugin implements SpigotGUI {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
         Bukkit.getPluginManager().registerEvents(new InventoryListener(this), this);
         Bukkit.getServicesManager().register(SpigotGUI.class, this, this, ServicePriority.Highest);
+    }
+
+    public void onDisable() {
+        playerGUIs.keySet().forEach(HumanEntity::closeInventory);
     }
 
     public GUIItem makeItem(String name, Material material) {
