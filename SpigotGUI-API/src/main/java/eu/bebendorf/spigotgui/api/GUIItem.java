@@ -33,6 +33,7 @@ public interface GUIItem {
     GUIItem color(Color color);
     Color color();
     GUIItem texture(String url);
+    GUIItem owner(String owner);
     GUIItem meta(MetaModifier... modifiers);
     GUIItem click(GUIClickListener listener);
 

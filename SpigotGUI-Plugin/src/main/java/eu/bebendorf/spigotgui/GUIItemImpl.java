@@ -34,6 +34,7 @@ public class GUIItemImpl implements GUIItem {
     final Map<Enchantment, Integer> enchants = new HashMap<>();
     Color color;
     String texture;
+    String owner;
     final List<MetaModifier> metaModifiers = new ArrayList<>();
     final List<GUIClickListener> listeners = new ArrayList<>();
     final Map<String, Object> attributes = new HashMap<>();
@@ -132,6 +133,11 @@ public class GUIItemImpl implements GUIItem {
         return this;
     }
 
+    public GUIItem owner(String owner) {
+        this.owner = owner;
+        return this;
+    }
+
     public GUIItem meta(MetaModifier... modifiers) {
         Collections.addAll(metaModifiers, modifiers);
         return this;
@@ -156,19 +162,23 @@ public class GUIItemImpl implements GUIItem {
         flags.forEach(meta::addItemFlags);
         if(color != null && meta instanceof LeatherArmorMeta)
             ((LeatherArmorMeta) meta).setColor(color);
-        if(texture != null && meta instanceof SkullMeta) {
-            GameProfile profile = new GameProfile(UUID.randomUUID(), "Skull");
-            JsonObject object = new JsonObject();
-            object.addProperty("timestamp", System.currentTimeMillis());
-            object.addProperty("profileId", profile.getId().toString());
-            object.addProperty("profileName", profile.getName());
-            JsonObject textures = new JsonObject();
-            JsonObject skin = new JsonObject();
-            skin.addProperty("url", texture);
-            textures.add("SKIN", skin);
-            object.add("textures", textures);
-            profile.getProperties().put("textures", new Property("textures", new String(Base64.getEncoder().encode(new GsonBuilder().disableHtmlEscaping().create().toJson(object).getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8)));
-            Reflection.getCBClass("inventory.CraftMetaSkull").getField("profile").setValue(meta, profile);
+        if(meta instanceof SkullMeta) {
+            if(owner != null)
+                ((SkullMeta) meta).setOwner(owner);
+            if(texture != null) {
+                GameProfile profile = new GameProfile(UUID.randomUUID(), "Skull");
+                JsonObject object = new JsonObject();
+                object.addProperty("timestamp", System.currentTimeMillis());
+                object.addProperty("profileId", profile.getId().toString());
+                object.addProperty("profileName", profile.getName());
+                JsonObject textures = new JsonObject();
+                JsonObject skin = new JsonObject();
+                skin.addProperty("url", texture);
+                textures.add("SKIN", skin);
+                object.add("textures", textures);
+                profile.getProperties().put("textures", new Property("textures", new String(Base64.getEncoder().encode(new GsonBuilder().disableHtmlEscaping().create().toJson(object).getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8)));
+                Reflection.getCBClass("inventory.CraftMetaSkull").getField("profile").setValue(meta, profile);
+            }
         }
         metaModifiers.forEach(m -> m.modify(meta));
         stack.setItemMeta(meta);
